@@ -51,7 +51,7 @@ type Payload struct {
 type Response struct {
   AwsAccessKey    string `json:"awsAccessKey"`
   AwsSecretKey    string `json:"awsSecretKey"`
-  AwsSessionToken string `jsin:"awsSessionToken"`
+  AwsSessionToken string `json:"awsSessionToken"`
 }
 
 type Record struct {
