@@ -43,7 +43,7 @@ type iniStruct struct {
 
 type payloadStruct struct {
   Username  string `json:"username"`
-  AccountID string `json:"accountId"`
+  AccountId string `json:"accountId"`
   RoleName  string `json:"roleName"`
   Password  string `json:"password"`
 }
