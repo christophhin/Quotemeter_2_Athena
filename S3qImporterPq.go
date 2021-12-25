@@ -338,7 +338,6 @@ func copyFile(ini INI, dtStr string) {
     out, err := exec.Command("/usr/local/bin/aws", args...).Output()
     if err != nil {
       panic(err.Error())
-      os.Exit(1)
     }
   
     fmt.Printf("Copy executed: %s\n", string(out))
@@ -347,7 +346,6 @@ func copyFile(ini INI, dtStr string) {
     err = os.Remove(outFileName)
     if err != nil {
       panic(err.Error())
-      os.Exit(1)
     }
   }
 
@@ -355,7 +353,6 @@ func copyFile(ini INI, dtStr string) {
   err = os.Remove(srcFile)
   if err != nil {
     panic(err.Error())
-    os.Exit(1)
   }
 }
 
