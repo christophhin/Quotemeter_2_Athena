@@ -23,15 +23,18 @@ jobs:
       run: |
         go version
         go get -u golang.org/x/lint/golint
- 
+        go get -u github.com/xitongsys/parquet-go-source/local
+        go get -u github.com/xitongsys/parquet-go/parquet
+        go get -u github.com/xitongsys/parquet-go/writer
+        
     - name: Build
       run: go build -v S3qImporterPq.go
  
  # Run vet & lint on the code
     - name: Run vet & lint
       run: |
-        go vet .
-        golint .
+        go vet S3qImporterPq
+        golint S3qImporterPq
     
     - name: Test
       run: go test -v S3qImporterPq.go
