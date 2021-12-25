@@ -119,7 +119,7 @@ func date2epoch(dt string) int64 {
   return t.Unix() - int64(offset)
 }
 
-func splunkQuery(ini INI, dtStr string) {
+func splunkQuery(ini iniStruct, dtStr string) {
   outFile := fmt.Sprintf("/tmp/dailyQuote_%s.csv", dtStr)
   sTime := date2epoch(dtStr)
   eTime := sTime + 86400
@@ -269,7 +269,7 @@ func copyFile(ini iniStruct, dtStr string) {
       panic(err.Error())
 	  }
 
-    pw, err := writer.NewParquetWriter(fw, new(Record), 4)
+    pw, err := writer.NewParquetWriter(fw, new(recordStruct), 4)
     if err != nil {
       panic(err.Error())
     }
