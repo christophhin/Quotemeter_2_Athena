@@ -24,7 +24,7 @@ import (
   "github.com/xitongsys/parquet-go/writer"
 )
 
-type INI struct {
+type iniStruct struct {
   host          string
   port          int
   user          string
@@ -41,20 +41,20 @@ type INI struct {
 }
 
 
-type Payload struct {
+type payloadStruct struct {
   Username  string `json:"username"`
   AccountID string `json:"accountId"`
   RoleName  string `json:"roleName"`
   Password  string `json:"password"`
 }
 
-type Response struct {
+type responseStruct struct {
   AwsAccessKey    string `json:"awsAccessKey"`
   AwsSecretKey    string `json:"awsSecretKey"`
   AwsSessionToken string `json:"awsSessionToken"`
 }
 
-type Record struct {
+type recordStruct struct {
   Symbol            string `parquet:"name=symbol, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
   AccountNumber     string `parquet:"name=accounntnumber, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"` /* spelling */
   UserID            string `parquet:"name=userid, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
@@ -71,7 +71,7 @@ type Record struct {
   ExtraValue2       string `parquet:"name=extravalue2, type=BYTE_ARRAY, convertedtype=UTF8, encoding=PLAIN_DICTIONARY"`
 }
 
-func readINI() INI {
+func readINI() iniStruct {
   // --- find ini file ---
   file, _ := os.Readlink("/proc/self/exe")
 
@@ -83,7 +83,7 @@ func readINI() INI {
 
   port, err := cfg.Section("splunk").Key("port").Int() 
 
-  ini := INI {
+  ini := iniStruct {
     cfg.Section("splunk").Key("host").String(),
     port,
     cfg.Section("splunk").Key("user").String(),
@@ -163,10 +163,10 @@ func splunkQuery(ini INI, dtStr string) {
   fmt.Println("----- [ Splunk REST request finished. ] -----")
 }
 
-func getS3creds(ini INI) {
-  var response Response
+func getS3creds(ini iniStruct) {
+  var response responseStruct
 
-  data := Payload{
+  data := payloadStruct {
     ini.username,
     ini.accountId,
     ini.roleName,
@@ -218,12 +218,12 @@ func checkFile(f string) bool {
   _, err := os.Stat(f)
   if err != nil {
     return false
-  } else {
-    return true
-  }
+  } 
+  
+  return true
 }
 
-func copyFile(ini INI, dtStr string) {
+func copyFile(ini iniStruct, dtStr string) {
   var cspCheck = regexp.MustCompile(`^([0-9]){5,7}|mdx`)
   aMap := make(map[string]int)
 
@@ -256,7 +256,7 @@ func copyFile(ini INI, dtStr string) {
   }
   
   // --- loop customer list and create dedicated Parquet files ---
-  for k, _ := range aMap {
+  for k := range aMap {
     fmt.Printf("%v\n", k)
     
     // --- rewind input file ---
@@ -305,7 +305,7 @@ func copyFile(ini INI, dtStr string) {
         a6 = line[13]
       }
 
-      rec := Record {
+      rec := recordStruct {
         Symbol:            line[10],
         AccountNumber:     line[11],
         UserID:            line[3],
@@ -321,10 +321,10 @@ func copyFile(ini INI, dtStr string) {
         ExtraValue1:       a5,
         ExtraValue2:       a6,
       }
-		  if err = pw.Write(rec); err != nil {
+      if err = pw.Write(rec); err != nil {
         panic(err.Error())
-  		}
-	  }
+      }
+    }
 
     // ---flush buffers, close file and upload to S3 bucket ---
   	if err = pw.WriteStop(); err != nil {
