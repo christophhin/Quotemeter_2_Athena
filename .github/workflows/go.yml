@@ -24,13 +24,9 @@ jobs:
         go version
         go get -u golang.org/x/lint/golint
         go get -u github.com/xitongsys/parquet-go-source/local
-#       go mod init github.com/xitongsys/parquet-go-source/local
         go get -u github.com/xitongsys/parquet-go/parquet
-#       go mod init github.com/xitongsys/parquet-go/parquet
         go get -u github.com/xitongsys/parquet-go/writer
-#       go mod init github.com/xitongsys/parquet-go/writer
         go get -u gopkg.in/ini.v1
-#       go mod init gopkg.in/ini.v1
         
     - name: Build
       run: go build -v S3qImporterPq.go
