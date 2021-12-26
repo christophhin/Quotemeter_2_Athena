@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         go version
-        go get -u golang.org/x/lint/golint
+        go install golang.org/x/lint/golint@latest
         go env -w GO111MODULE=auto
         go get -u github.com/xitongsys/parquet-go-source/local
         go get -u github.com/xitongsys/parquet-go/parquet
