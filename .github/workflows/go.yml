@@ -35,8 +35,8 @@ jobs:
  # Run vet & lint on the code
     - name: Run vet & lint
       run: |
-        go vet -x S3qImporterPq.go 
+        go vet S3qImporterPq.go 
         golint S3qImporterPq.go
     
     - name: Test
-      run: go test -v S3qImporterPq.go
+      run: go test -v S3qImporterPq
