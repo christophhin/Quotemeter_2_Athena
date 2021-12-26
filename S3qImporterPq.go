@@ -33,7 +33,7 @@ type iniStruct struct {
   environ       string
   url           string
   username      string
-  accountId     string
+  accountID     string
   roleName      string
   password      string
   region        string
@@ -92,7 +92,7 @@ func readINI() iniStruct {
     cfg.Section("splunk").Key("environ").String(),
     cfg.Section("main").Key("url").String(),
     cfg.Section("main").Key("username").String(),
-    cfg.Section("main").Key("accountId").String(),
+    cfg.Section("main").Key("accountID").String(),
     cfg.Section("main").Key("roleName").String(),
     cfg.Section("main").Key("password").String(),
     cfg.Section("main").Key("region").String(),
@@ -168,7 +168,7 @@ func getS3creds(ini iniStruct) {
 
   data := payloadStruct {
     ini.username,
-    ini.accountId,
+    ini.accountID,
     ini.roleName,
     ini.password,
   }
