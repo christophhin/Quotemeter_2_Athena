@@ -39,4 +39,4 @@ jobs:
         golint S3qImporterPq.go
     
     - name: Test
-      run: go test -v S3qImporterPq
+      run: go test -v .
